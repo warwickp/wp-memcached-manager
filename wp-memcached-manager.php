@@ -140,7 +140,10 @@ class WPMemcachedServer extends Memcache {
 		$status = @$this->getStats();
 
 		$MBSize=(real) $status["limit_maxbytes"]/(1024*1024) ;
-		echo "<tr><td>Instance Size</td><td>".$MBSize." MB</td></tr>";
+		$MBUsed=(real) $status["bytes"]/(1024*1024);
+		$UsagePct=sprintf("%.2f", $MBUsed/$MBSize*100);
+		$MBUsed=sprintf("%.2f", $MBUsed);
+		echo "<tr><td>Size Usage</td><td>$MBUsed / $MBSize MB ($UsagePct%)</td></tr>";
 		$hours = intval( intval( $status ["uptime"] ) / 3600 ); 
 		echo "<tr><td>Uptime</td><td>".$hours." hours</td></tr>";
 		echo "<tr><td>Current Open Connections </td><td>".$status ["curr_connections"]."</td></tr>";
